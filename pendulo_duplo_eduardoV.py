@@ -6,6 +6,7 @@ Autor: Eduardo da Costa Valadão - eduardovaladao98@gmail.com
 
 import matplotlib.pyplot as plt
 from runge_kutta_eduardoV import * 
+from pendulo_functions_eduardoV import *
 
 print ("*---------------------------------------------------------------------------*")
 print ("| Simulação de um pêndulo duplo utilizando-se o método de Runge-Kutta (RK4) |")
@@ -45,28 +46,50 @@ def alfa2_prime(t, theta1, theta2, alfa1, alfa2, l1 = a, l2 = c, m1 = b, m2 = d,
 t = np.arange(t0, tf+1, x)
 theta1, theta2, alfa1, alfa2 = runge_kutta_4order(theta1_prime, theta2_prime, alfa1_prime, alfa2_prime, t, theta1_0, theta2_0, alfa1_0, alfa2_0)
 
+x1 = []
+y1 = []
+for i in range(len(theta1)):
+    a1 = pendulum_x1(theta1, a, i)
+    b1 = pendulum_y1(theta1, a, i)
+    x1.append(a1)
+    y1.append(b1) 
 
-plt.plot(t, theta1)
-plt.xlabel("t (s)")
-plt.ylabel("theta1 (radianos)")
+x2 = []
+y2 = []
+for j in range(len(theta2)):
+    a2 = pendulum_x2(theta2, c, x1, j)
+    b2 = pendulum_y2(theta2, c, y1, j)
+    x2.append(a2)
+    y2.append(b2)
+
+
+plt.plot(t, theta1, 'r')
+plt.xlabel(r'$t (s)$')
+plt.ylabel(r'$\theta_{1} (radianos)$')
 plt.show()
-plt.plot(t, theta2)
-plt.xlabel("t (s)")
-plt.ylabel("theta2 (radianos)")
+plt.plot(t, theta2, 'b')
+plt.xlabel(r'$t (s)$')
+plt.ylabel(r'$\theta_{2} (radianos)$')
 plt.show()
-plt.plot(t, alfa1)
-plt.xlabel("t (s)")
-plt.ylabel("alfa1 (radianos)")
+plt.plot(t, alfa1, 'r')
+plt.xlabel(r'$t (s)$')
+plt.ylabel(r'$\alpha_{1} (radianos)$')
 plt.show()
-plt.plot(t, alfa2)
-plt.xlabel("t (s)")
-plt.ylabel("alfa2 (radianos/s)")
+plt.plot(t, alfa2, 'b')
+plt.xlabel(r'$t (s)$')
+plt.ylabel(r'$\alpha_{2} (radianos)$')
 plt.show()
-plt.plot(theta1, theta2)
-plt.xlabel("theta1 (radianos)")
-plt.ylabel("theta2 (radianos)")
+plt.plot(theta1, theta2, 'purple')
+plt.xlabel(r'$\theta_{1} (radianos)$')
+plt.ylabel(r'$\theta_{2} (radianos)$')
 plt.show()
-plt.plot(alfa1, alfa2)
-plt.xlabel("alfa1 (radianos)")
-plt.ylabel("alfa2 (radianos)")
+plt.plot(alfa1, alfa2, 'black')
+plt.xlabel(r'$\alpha_{1} (radianos)$')
+plt.ylabel(r'$\alpha_{2} (radianos)$')
+plt.show()
+plt.plot(x1, y1, 'r')
+plt.plot(x2, y2, 'b')
+plt.axis([-(a + c + 0.25)*0.5, (a + c + 0.25)*0.5, -(a + c + 0.25), 0])
+plt.xlabel(r'$x (m)$')
+plt.ylabel(r'$y (m)$')
 plt.show()
